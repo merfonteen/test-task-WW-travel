@@ -1,0 +1,39 @@
+services:
+
+  auth-api:
+    build:
+      context: ./auth-api
+      dockerfile: Dockerfile
+    container_name: auth-api
+    environment:
+      SPRING_DATASOURCE_URL: ${POSTGRES_URL}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    networks:
+      - authnet
+
+  postgres:
+    image: postgres:16
+    container_name: auth-db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: auth_db
+    ports:
+      - "5433:5432"
+#    volumes:
+#      - pgdata:/var/lib/postgresql/data
+    networks:
+      - authnet
+
+#volumes:
+#  post-db-data:
+
+networks:
+  authnet:
+    driver: bridge
