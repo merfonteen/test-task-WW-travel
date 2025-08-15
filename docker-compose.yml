@@ -9,11 +9,26 @@ services:
       SPRING_DATASOURCE_URL: ${POSTGRES_URL}
       SPRING_DATASOURCE_USERNAME: ${POSTGRES_USERNAME}
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+      INTERNAL_TOKEN: ${INTERNAL_TOKEN}
+      DATA_API_BASE_URL: http://data-api:8081
       JWT_SECRET: ${JWT_SECRET}
     ports:
       - "8080:8080"
     depends_on:
       - postgres
+    networks:
+      - authnet
+
+  data-api:
+    build:
+      context: ./data-api
+      dockerfile: Dockerfile
+    container_name: data-api
+    environment:
+      INTERNAL_TOKEN: ${INTERNAL_TOKEN}
+      SERVER_PORT: 8081
+    ports:
+      - "8081:8081"
     networks:
       - authnet
 
@@ -26,13 +41,8 @@ services:
       POSTGRES_DB: auth_db
     ports:
       - "5433:5432"
-#    volumes:
-#      - pgdata:/var/lib/postgresql/data
     networks:
       - authnet
-
-#volumes:
-#  post-db-data:
 
 networks:
   authnet:
