@@ -23,7 +23,10 @@ spring:
 security:
   jwt:
     secret: ${JWT_SECRET}
-    ttl_minutes: 30
+    ttl-minutes: 30
 
-data-api:
-  base-url: ${DATA_API_BASE_URL:http://data-api:8081}
+app:
+  internal-service:
+    data-api-url: ${DATA_API_BASE_URL:http://data-api:8081}
+    internal-token: ${INTERNAL_TOKEN}
+
