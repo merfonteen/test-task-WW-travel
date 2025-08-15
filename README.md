@@ -23,7 +23,7 @@
 ```
 
 ### Authorize a user:  
-**POST** `http://localhost:8080/api/v1/auth/register`  
+**POST** `http://localhost:8080/api/v1/auth/login`  
 ```json
 {
    "email": "test@gmail.com",
